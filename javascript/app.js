@@ -1,4 +1,4 @@
-var app = angular.module("redditApp", ['angularMoment']);
+var app = angular.module("redditApp", ['angularMoment', 'ngAnimate']);
   app.run(function(amMoment) {
     amMoment.changeLocale('de');
 });

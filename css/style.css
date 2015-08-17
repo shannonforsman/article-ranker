@@ -238,6 +238,26 @@ form {
     border: none;
     height: 132px; }
 
+.ng-enter {
+  -webkit-transition: all 0.75s;
+  -moz-transition: all 0.75s;
+  -o-transition: all 0.75s;
+  transition: all 0.75s;
+  opacity: 0; }
+
+.ng-enter-active {
+  opacity: 1; }
+
+.ng-leave {
+  -webkit-transition: all 0.75s;
+  -moz-transition: all 0.75s;
+  -o-transition: all 0.75s;
+  transition: all 0.75s;
+  opacity: 1; }
+
+.ng-leave-active {
+  opacity: 0; }
+
 nav {
   background: blue;
   width: 1000px;
