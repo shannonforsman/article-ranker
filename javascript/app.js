@@ -5,7 +5,7 @@ var app = angular.module("redditApp", ['angularMoment']);
 
 app.controller("RedditInfoController", function($scope, $http){
 
-  $http.get('http://localhost:3000/articles').
+  $http.get('https://desolate-ocean-9111.herokuapp.com/articles').
   then(function(response) {
     $scope.list = response.data
   }, function(response) {
@@ -17,7 +17,7 @@ app.controller("RedditInfoController", function($scope, $http){
   $scope.upVote = function(id) {
     // $scope.list[id].votes ++
 
-    $http.put('http://localhost:3000/articles', {'id': id, 'upvote': true}).
+    $http.put('https://desolate-ocean-9111.herokuapp.com/articles', {'id': id, 'upvote': true}).
     then(function(response) {
       console.log(response.data)
       $scope.list[id] = response.data
@@ -28,7 +28,7 @@ app.controller("RedditInfoController", function($scope, $http){
   }
   $scope.downVote = function(id) {
 
-    $http.put('http://localhost:3000/articles', {'id': id, 'upvote': false}).
+    $http.put('https://desolate-ocean-9111.herokuapp.com/articles', {'id': id, 'upvote': false}).
     then(function(response) {
       $scope.list[id] = response.data
     })
@@ -49,12 +49,14 @@ app.controller("RedditInfoController", function($scope, $http){
     obj['id'] = $scope.list.length
     obj['comments'] = []
 
-    $http.post('http://localhost:3000/articles', obj).
+    $http.post('https://desolate-ocean-9111.herokuapp.com/articles', obj).
     then(function(response) {
       $scope.list = response.data
     }, function(response) {
 
     });
+    obj = {}
+
     // $scope.list.push(obj)
     // var listObj = JSON.parse(localStorage.getItem('list')) || []
     // listObj.push(obj)
@@ -66,9 +68,9 @@ app.controller("RedditInfoController", function($scope, $http){
     obj['author'] = author
     obj['text'] = text
 
-    // $scope.list[id].comments.push(obj)
+    $scope.list[id].comments.push(obj)
 
-    $http.put('http://localhost:3000/comments', {'id': id, 'comments': obj}).
+    $http.put('https://desolate-ocean-9111.herokuapp.com/comments', {'id': id, 'comments': obj}).
     then(function(response) {
       console.log(response)
       $scope.list[id] = response.data// $scope.list[id] = response.data

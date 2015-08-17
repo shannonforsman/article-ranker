@@ -44,6 +44,11 @@ main {
       float: left;
       .fa {
         margin-bottom: 6px;
+        &:hover {
+          @include transition(all .3s ease);
+          color: $black;
+          cursor: pointer;
+        }
       }
     }
   }
