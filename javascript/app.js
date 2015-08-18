@@ -3,8 +3,16 @@ var app = angular.module("redditApp", ['angularMoment', 'ngAnimate']);
     amMoment.changeLocale('de');
 });
 
+var link = 'https://desolate-ocean-9111.herokuapp.com/'
+// if (window.location.href === 'file:///Users/shannonforsman/workspace/javascript/angular/reddit-clone/index.html') {
+//   link = 'http://localhost:3000/'
+// } else if (window.location.href === 'http://shannonforsman.github.io/article-ranker/') {
+//   link = 'https://desolate-ocean-9111.herokuapp.com/'
+// }
+
 app.controller("RedditInfoController", function($scope, $http){
-  $http.get('https://desolate-ocean-9111.herokuapp.com/articles').
+  $scope.list = []
+  $http.get(link + 'articles').
   then(function(response) {
     $scope.list = response.data
   }, function(response) {
@@ -12,21 +20,14 @@ app.controller("RedditInfoController", function($scope, $http){
   });
   $scope.votes = 0
   $scope.upVote = function(id) {
-    $http.put('https://desolate-ocean-9111.herokuapp.com/articles', {'id': id, 'upvote': true}).
-    then(function(response) {
-      console.log(response.data)
-      $scope.list[id] = response.data
-    })
+    $scope.list[id].votes = parseInt($scope.list[id].votes, 10) + 1
+    $http.put(link + 'articles', {'id': id, 'upvote': true})
   }
   $scope.downVote = function(id) {
-
-    $http.put('https://desolate-ocean-9111.herokuapp.com/articles', {'id': id, 'upvote': false}).
-    then(function(response) {
-      $scope.list[id] = response.data
-    })
+    $scope.list[id].votes = parseInt($scope.list[id].votes, 10) - 1
+    $http.put(link + 'articles', {'id': id, 'upvote': false})
   }
   $scope.submit = function(title, author, imgUrl, description) {
-
     var obj = {}
     $scope.showDetails = ! $scope.showDetails
     obj['title'] = title
@@ -38,7 +39,7 @@ app.controller("RedditInfoController", function($scope, $http){
     obj['id'] = $scope.list.length
     obj['comments'] = []
 
-    $http.post('https://desolate-ocean-9111.herokuapp.com/articles', obj).
+    $http.post(link + 'articles', obj).
     then(function(response) {
       $scope.list = response.data
     }, function(response) {
@@ -55,7 +56,7 @@ app.controller("RedditInfoController", function($scope, $http){
     obj['author'] = author
     obj['text'] = text
     $scope.list[id].comments.push(obj)
-    $http.put('https://desolate-ocean-9111.herokuapp.com/comments', {'id': id, 'comments': obj}).
+    $http.put(link + 'comments', {'id': id, 'comments': obj}).
     then(function(response) {
       console.log(response)
       $scope.list[id] = response.data
